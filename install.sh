@@ -73,7 +73,7 @@ cd
 
 # About
 clear
-echo "Script by d1nfuck3r :-"
+echo "Script by ThongchaiMusic"
 echo "-Pritunl"
 echo "-MongoDB"
 echo "-Vnstat"
