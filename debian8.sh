@@ -21,16 +21,17 @@ systemctl enable mongod pritunl
 # Install Squid
 apt-get -y install squid3
 cp /etc/squid3/squid.conf /etc/squid3/squid.conf.orig
-wget -O /etc/squid3/squid.conf "https://raw.githubusercontent.com/zero9911/pritunl/master/conf/squid.conf" 
+wget -O /etc/squid3/squid.conf "https://raw.githubusercontent.com/hiphop2531/PritunlThongchai/master/squid.conf" 
 MYIP=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0' | grep -v '192.168'`;
 sed -i s/xxxxxxxxx/$MYIP/g /etc/squid3/squid.conf;
 service squid3 restart
 
 # Enable Firewall
-sudo ufw allow 22,80,81,222,443,8080,9700,60000/tcp
+sudo ufw allow 22,80,81,222,443,1194,8080,9700,60000/tcp
+sudo ufw allow 22,80,81,222,443,1194,8080,9700,60000/udp
 sudo yes | ufw enable
 
-# Change to Time GMT+8
+# Change to Time GMT+7
 ln -fs /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 
 # Install Web Server
@@ -38,11 +39,11 @@ apt-get -y install nginx php5-fpm php5-cli
 cd
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
-wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/zero9911/pritunl/master/conf/nginx.conf"
+wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/hiphop2531/PritunlThongchai/master/nginx.conf"
 mkdir -p /home/vps/public_html
 echo "<pre>Setup by MKSSHVPN </pre>" > /home/vps/public_html/index.html
 echo "<?php phpinfo(); ?>" > /home/vps/public_html/info.php
-wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/zero9911/pritunl/master/conf/vps.conf"
+wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/hiphop2531/PritunlThongchai/master/vps.conf"
 sed -i 's/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php5/fpm/pool.d/www.conf
 service php5-fpm restart
 service nginx restart
@@ -56,6 +57,7 @@ service vnstat restart
 # Install Vnstat GUI
 cd /home/vps/public_html/
 wget http://www.sqweek.com/sqweek/files/vnstat_php_frontend-1.5.1.tar.gz
+wget https://raw.githubusercontent.com/hiphop2531/PritunlThongchai/master/vnstat_php_frontend-1.5.1.tar.gz
 tar xf vnstat_php_frontend-1.5.1.tar.gz
 rm vnstat_php_frontend-1.5.1.tar.gz
 mv vnstat_php_frontend-1.5.1 vnstat
