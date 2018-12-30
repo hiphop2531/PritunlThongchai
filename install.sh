@@ -56,10 +56,10 @@ apt-get -y install vnstat
 vnstat -u -i eth0
 sudo chown -R vnstat:vnstat /var/lib/vnstat
 service vnstat restart
-
+ 
 # Install Vnstat GUI
 cd /home/vps/public_html/
-wget https://raw.githubusercontent.com/hiphop2531/PritunlThongchai/master/vnstat_php_frontend-1.5.1.tar.gz
+wget http://www.sqweek.com/sqweek/files/vnstat_php_frontend-1.5.1.tar.gz
 tar xf vnstat_php_frontend-1.5.1.tar.gz
 rm vnstat_php_frontend-1.5.1.tar.gz
 mv vnstat_php_frontend-1.5.1 vnstat
@@ -69,6 +69,7 @@ sed -i "s/\$language = 'nl';/\$language = 'en';/g" config.php
 sed -i 's/Internal/Internet/g' config.php
 sed -i '/SixXS IPv6/d' config.php
 cd
+
 
 # About
 clear
